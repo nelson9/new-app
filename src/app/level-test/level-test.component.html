@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            Question {{questionNumber}}: {{currentQuestion.question}}
+            <p></p>
+            <div *ngFor="let option of currentQuestion.options; let idx = index" class="radio">
+                    <label> <input #answer type="radio" [value]="option" name="answer" [checked]="idx === 0"> {{option}}</label>
+            </div>
+            <p></p>
+            <button [disabled]="testOver" type="button" (click)="submitAnswer(answer.value)" class="btn btn-primary">Next</button>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width]="percentComplete + '%'">
+                    {{percentComplete}} %
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule }   from '@angular/forms';
 import { LevelTest } from './level-test'
 import { Level } from './level'
 import { Question } from './question'
@@ -16,8 +17,10 @@ export class LevelTestComponent implements OnInit {
     score: number;
     percentComplete: number;
     questionNumber: number;
-    testOver: boolean;
-
+    testOver: boolean;    
+    level : Level;
+    
+    
     ngOnInit() {
 
         let question1 = new Question();
@@ -65,16 +68,25 @@ export class LevelTestComponent implements OnInit {
         this.percentComplete = 0;
         this.questionNumber = 1;
         this.testOver = false;
+
+        this.level = Level.A1;
+
+        
     }
 
     submitAnswer(answer) {
-        if(answer === this.currentQuestion.answer){
+        if(answer.answer == this.currentQuestion.answer){
             this.score = this.score +1;
+            if(this.score > 2) {
+                if(this.level === Level.A1){
+                    this.level = Level.A2
+                }        
+                this.score = 0;
+            }
         }
 
-        let index = this.questions.indexOf(this.currentQuestion) + 1;
+        let index = this.questions.indexOf(this.currentQuestion) + 1;      
         
-       
 
         if (index < this.questions.length) {
             this.questionNumber = this.questionNumber +1;
@@ -82,11 +94,16 @@ export class LevelTestComponent implements OnInit {
             this.percentComplete = (index/this.questions.length) * 100;
         }
         else{
+            this.percentComplete = 100;
             this.testOver = true;
         }
 
 
 
+    }
+
+    getLevelName(): string{
+        return Level[this.level];
     }
 
 

@@ -1,24 +1,36 @@
 <div class="container">
     <div class="row">
+        <ul class="list-group">
+            <li [ngClass]="{'active': getLevelName() === 'A1'  }" class="list-group-item">A1</li>
+            <li [ngClass]="{'active': getLevelName() === 'A2'  }" class="list-group-item">A2</li>
+            <li [ngClass]="{'active': getLevelName() === 'A3'  }" class="list-group-item">B1</li>
+            <li [ngClass]="{'active': getLevelName() === 'A4'  }" class="list-group-item">B2</li>
+
+        </ul>
+    </div>
+    <div class="row">
         <div class="col-lg-4">
             Question {{questionNumber}}: {{currentQuestion.question}}
             <p></p>
             <form #f="ngForm" novalidate (ngSubmit)="submitAnswer(f.value)" class="form-horizontal">
                 <div *ngFor="let option of currentQuestion.options; let idx = index" class="radio">
                     <label>
-                        <input type="radio" [value]="option" [ngModel]="option" #rowid="ngModel" name="answer" [checked]="idx === 0"> {{option}}</label>
+                        <input type="radio" [value]="option" [ngModel]="option" #rowid="ngModel" name="answer"> {{option}}</label>
                 </div>
-                <button [disabled]="testOver" type="submit" class="btn btn-primary">ok</button>
+                <p></p>
+                <button [disabled]="testOver" type="submit" class="btn btn-primary">Next</button>
             </form>
-            <p>{{score}}</p>
-            <p>{{getLevelName()}}</p>
+            <p></p>
+    
+            <p></p>
+            <p *ngIf="testOver">Your leve is: {{getLevelName()}}</p>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
             <div class="progress">
                 <div class="progress-bar" role="progressbar" [style.width]="percentComplete + '%'">
-                    {{percentComplete}} %
+                    {{questionNumber}} of {{totalQuestions}}
                 </div>
             </div>
         </div>

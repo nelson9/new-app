@@ -1,8 +1,7 @@
 import { Question } from './question';
 import { Level } from './level';
 
-export class LevelTest{
+export class QuestionSet{
     questions: Array<Question>;
-    score: number;
-    levelAchived: Level;
+    level: Level;
 }

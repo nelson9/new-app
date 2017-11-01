@@ -53,7 +53,7 @@ export class LevelTestComponent implements OnInit {
         }
         else {
 
-            if (this.continueNextLevel === true && this.level != Level.B1) {
+            if (this.continueNextLevel === true && this.questionSetList.indexOf(this.currentQuestionsSet)+1 < this.questionSetList.length) {
 
                 var level = this.currentQuestionsSet.level;
                 if (level === Level.A1) {

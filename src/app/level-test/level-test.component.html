@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col-lg-4">
-            Question {{questionNumber}}: {{currentQuestion.question}}
+            Question {{getQuestionNumber()}}: {{currentQuestion.question}}
             <p></p>
             <form #f="ngForm" novalidate (ngSubmit)="submitAnswer(f.value)" class="form-horizontal">
                 <div *ngFor="let option of currentQuestion.options; let idx = index" class="radio">
@@ -30,7 +30,7 @@
         <div class="col-lg-4">
             <div class="progress">
                 <div class="progress-bar" role="progressbar" [style.width]="percentComplete + '%'">
-                    {{questionNumber}} of {{totalQuestions}}
+                    {{getQuestionNumber()}} of {{totalQuestions}}
                 </div>
             </div>
         </div>

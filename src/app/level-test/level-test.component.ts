@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Level } from './level'
 import { Question } from './question'
 import { QuestionSet } from './questionSet'
@@ -10,70 +10,88 @@ import { QuestionSet } from './questionSet'
     styleUrls: ['./level-test.component.scss']
 })
 export class LevelTestComponent implements OnInit {
-   
-    questionsSet: QuestionSet;
 
+    questionSetList: Array<QuestionSet>;
+    currentQuestionsSet: QuestionSet;
     currentQuestion: Question;
     score: number;
-    percentComplete: number;
-    questionNumber: number;
-    testOver: boolean;    
-    level : Level;
+    percentComplete: number;   
+    testOver: boolean;
+    level: Level;
     totalQuestions: number;
     continueNextLevel: boolean;
-    
+
     ngOnInit() {
-       
-        this.questionsSet = this.getA1Questions();
-        this.currentQuestion = this.questionsSet.questions[0];
+
+        this.questionSetList = new Array<QuestionSet>();
+
+
+        let questionsSetA1 = this.getA1Questions();
+        let questionsSetA2 = this.getA2Questions();
+        this.questionSetList.push(questionsSetA1);
+        this.questionSetList.push(questionsSetA2);
+
+
+        this.currentQuestionsSet = this.questionSetList[0];
         this.score = 0;
         this.percentComplete = 0;
-        this.questionNumber = 1;
+        
         this.testOver = false;
         this.level = Level.A1;
-        this.totalQuestions = this.questionsSet.questions.length;    
-        this.continueNextLevel = false;    
+        this.currentQuestion = this.currentQuestionsSet.questions[0];
+
+        this.totalQuestions = this.currentQuestionsSet.questions.length;
+        this.continueNextLevel = false;
     }
 
     submitAnswer(answer) {
-        if(answer.answer == this.currentQuestion.answer){
-            this.score = this.score +1;
-            if(this.score > 2) {
-                if(this.level === Level.A1){
-                    this.continueNextLevel = true;
-                    this.level = Level.A2
-                }   
-                if(this.level === Level.A2){
-                    this.continueNextLevel = true;
-                    this.level = Level.B1
-                }            
+        if (answer.answer == this.currentQuestion.answer) {
+            this.score = this.score + 1;
+
+            if (this.score > 2) {
+                this.continueNextLevel = true;                
             }
         }
 
-        let index = this.questionsSet.questions.indexOf(this.currentQuestion) + 1;              
+        let index = this.currentQuestionsSet.questions.indexOf(this.currentQuestion) + 1;
 
-        if (index < this.questionsSet.questions.length) {
-            this.questionNumber = this.questionNumber +1;
-            this.currentQuestion = this.questionsSet.questions[index];
-            this.percentComplete = (index/this.questionsSet.questions.length) * 100;
+        if (index < this.currentQuestionsSet.questions.length) {           
+            this.currentQuestion = this.currentQuestionsSet.questions[index];
+            this.percentComplete = (index / this.currentQuestionsSet.questions.length) * 100;
         }
-        else{
+        else {
 
-            if(this.continueNextLevel === true && this.level != Level.B1){
-                this.questionsSet = this.getA2Questions();
-                this.percentComplete = 100;
+            if (this.continueNextLevel === true && this.level != Level.B1) {
+
+                var level = this.currentQuestionsSet.level;
+                if (level === Level.A1) {
+                    this.level = Level.A2;
+                }
+                if (level === Level.A2) {
+                    this.level = Level.B1;
+                }
+
+                let setIndex = this.questionSetList.indexOf(this.currentQuestionsSet);
+                this.currentQuestionsSet = this.questionSetList[setIndex + 1]
+                this.percentComplete = 0;
+                this.currentQuestion = this.currentQuestionsSet.questions[0];
+                
             }
-            else{
+            else {
                 this.testOver = true;
+                this.level = this.currentQuestionsSet.level;
             }
-            
-           
-        }
-        console.log(this.score);
+
+
+        }     
     }
 
-    getLevelName(): string{
+    getLevelName(): string {
         return Level[this.level];
+    }
+
+    getQuestionNumber(): number {
+        return this.currentQuestionsSet.questions.indexOf(this.currentQuestion)+1;
     }
 
     getA1Questions(): QuestionSet {
@@ -111,7 +129,7 @@ export class LevelTestComponent implements OnInit {
         question4.options.push("gracias");
 
         let questions = new Array<Question>();
-        
+
         questions.push(question1)
         questions.push(question2)
         questions.push(question3)
@@ -159,7 +177,7 @@ export class LevelTestComponent implements OnInit {
         question4.options.push("gracias");
 
         let questions = new Array<Question>();
-        
+
         questions.push(question1)
         questions.push(question2)
         questions.push(question3)

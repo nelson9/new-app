@@ -15,7 +15,7 @@
             <form #f="ngForm" novalidate (ngSubmit)="submitAnswer(f.value)" class="form-horizontal">
                 <div *ngFor="let option of currentQuestion.options; let idx = index" class="radio">
                     <label>
-                        <input type="radio" [value]="option" [ngModel]="option" #rowid="ngModel" name="answer"> {{option}}</label>
+                        <input type="radio" [value]="option"  [ngModel]="value" [checked]="idx === 0"  name="answer"> {{option}}</label>
                 </div>
                 <p></p>
                 <button [disabled]="testOver" type="submit" class="btn btn-primary">Next</button>
@@ -29,8 +29,8 @@
     <div class="row">
         <div class="col-lg-4">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" [style.width]="percentComplete + '%'">
-                    {{getQuestionNumber()}} of {{totalQuestions}}
+                <div class="progress-bar" role="progressbar" [style.width]="getPercentageComplete() + '%'">
+                    {{getQuestionNumber()}} of {{getTotalQuestions()}}
                 </div>
             </div>
         </div>

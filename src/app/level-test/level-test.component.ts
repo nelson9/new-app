@@ -14,11 +14,9 @@ export class LevelTestComponent implements OnInit {
     questionSetList: Array<QuestionSet>;
     currentQuestionsSet: QuestionSet;
     currentQuestion: Question;
-    score: number;
-    percentComplete: number;   
+    score: number;    
     testOver: boolean;
-    level: Level;
-    totalQuestions: number;
+    level: Level;    
     continueNextLevel: boolean;
 
     ngOnInit() {
@@ -31,17 +29,12 @@ export class LevelTestComponent implements OnInit {
         this.questionSetList.push(questionsSetA1);
         this.questionSetList.push(questionsSetA2);
 
-
         this.currentQuestionsSet = this.questionSetList[0];
-        this.score = 0;
-        this.percentComplete = 0;
-        
+        this.score = 0;                
         this.testOver = false;
         this.level = Level.A1;
-        this.currentQuestion = this.currentQuestionsSet.questions[0];
-
-        this.totalQuestions = this.currentQuestionsSet.questions.length;
-        this.continueNextLevel = false;
+        this.currentQuestion = this.currentQuestionsSet.questions[0];   
+        this.continueNextLevel = false;    
     }
 
     submitAnswer(answer) {
@@ -56,8 +49,7 @@ export class LevelTestComponent implements OnInit {
         let index = this.currentQuestionsSet.questions.indexOf(this.currentQuestion) + 1;
 
         if (index < this.currentQuestionsSet.questions.length) {           
-            this.currentQuestion = this.currentQuestionsSet.questions[index];
-            this.percentComplete = (index / this.currentQuestionsSet.questions.length) * 100;
+            this.currentQuestion = this.currentQuestionsSet.questions[index];            
         }
         else {
 
@@ -73,7 +65,7 @@ export class LevelTestComponent implements OnInit {
 
                 let setIndex = this.questionSetList.indexOf(this.currentQuestionsSet);
                 this.currentQuestionsSet = this.questionSetList[setIndex + 1]
-                this.percentComplete = 0;
+              
                 this.currentQuestion = this.currentQuestionsSet.questions[0];
                 
             }
@@ -81,9 +73,13 @@ export class LevelTestComponent implements OnInit {
                 this.testOver = true;
                 this.level = this.currentQuestionsSet.level;
             }
-
-
         }     
+    }
+
+
+    getPercentageComplete(): number{
+        let indexOfCurrentQuestion = this.currentQuestionsSet.questions.indexOf(this.currentQuestion) + 1;
+        return (indexOfCurrentQuestion / this.currentQuestionsSet.questions.length) * 100;
     }
 
     getLevelName(): string {
@@ -92,6 +88,10 @@ export class LevelTestComponent implements OnInit {
 
     getQuestionNumber(): number {
         return this.currentQuestionsSet.questions.indexOf(this.currentQuestion)+1;
+    }
+
+    getTotalQuestions(): number {
+        return  this.currentQuestionsSet.questions.length;
     }
 
     getA1Questions(): QuestionSet {

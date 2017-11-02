@@ -18,6 +18,7 @@ export class LevelTestComponent implements OnInit {
     testOver: boolean;
     level: Level;    
     continueNextLevel: boolean;
+    notification: string;
 
     ngOnInit() {
 
@@ -62,7 +63,7 @@ export class LevelTestComponent implements OnInit {
                 if (level === Level.A2) {
                     this.level = Level.B1;
                 }
-
+                this.notification = "Congrats you have passed level " + this.getLevelName() + " keep going to try the next level!"
                 let setIndex = this.questionSetList.indexOf(this.currentQuestionsSet);
                 this.currentQuestionsSet = this.questionSetList[setIndex + 1]
               
@@ -72,6 +73,7 @@ export class LevelTestComponent implements OnInit {
             else {
                 this.testOver = true;
                 this.level = this.currentQuestionsSet.level;
+                this.notification = "Test over"
             }
         }     
     }

@@ -21,7 +21,9 @@
                 <button [disabled]="testOver" type="submit" class="btn btn-primary">Next</button>
             </form>
             <p></p>
-    
+    <p>
+        {{notification}}
+    </p>
             <p></p>
             <p *ngIf="testOver">Your leve is: {{getLevelName()}}</p>
         </div>
